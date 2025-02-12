@@ -1,0 +1,5 @@
+ZMKS_MAT11	B	FERT	Material1		
+ZMKS_MAT12	B	FERT	Material2		
+ZMKS_MAT13	B	FERT	Material3		
+ZMKS_MAT14	B	FERT	Material4	      	
+ZMKS_MAT15	B	FERT	Material5	        	
