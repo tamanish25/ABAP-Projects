@@ -1,10 +1,15 @@
 # SAP BDC Material Master Upload (MM01)
 
 ## Overview
-This ABAP program automates the **material master data migration** into the SAP MM **MARA** table using **BDC Call Transaction (MM01)**. The program reads material data from a **tab-separated file** and processes bulk material creation in SAP.
+This document describes two ABAP programs for **material master data migration** into the SAP MM **MARA** table using **BDC (Batch Data Communication)**.
+
+1. **Call Transaction Method** - Directly processes BDC data for immediate execution.
+2. **Session Method** - Creates a batch session that can be processed later via transaction **SM35**.
+
+Both programs read material data from a **tab-separated file (.txt)** and automate bulk material creation in SAP.
 
 ## Features
-- Uses **BDC Call Transaction** to create materials in SAP.
+- Uses **BDC Call Transaction & BDC Session Method** to create materials in SAP.
 - Reads input data from a **tab-separated file (.txt)**.
 - Automates data entry in **MM01** transaction.
 - Implements **error handling, logging, and validation**.
@@ -35,7 +40,8 @@ ZMKS_MAT15	B	FERT	Material5
 - Ensure that the file is correctly formatted with tab-separated values.
 
 ### 2. Execute the ABAP Program
-- Run the program in SAP.
+- **Call Transaction Method:** Runs the transaction **MM01** directly.
+- **Session Method:** Creates a batch input session that must be processed later in **SM35**.
 - The program will read the file and populate the **BDC session** for transaction **MM01**.
 - The script will simulate user inputs across SAP screens.
 
@@ -43,13 +49,22 @@ ZMKS_MAT15	B	FERT	Material5
 - Messages related to material creation will be displayed in the **SAP output log**.
 - Any errors will be logged for debugging and correction.
 
+## Extracting Steps via Screen Recording
+To ensure accuracy in navigating and populating the **MM01** transaction, the extraction of step-by-step inputs was done using **SAP Screen Recording (SHDB transaction)**. This method allows to capture:
+- The sequence of screens and fields required.
+- The necessary **BDC field mappings**.
+- Any dependencies between fields and screens.
+- The correct **OK codes** to move through each screen.
+
+By using **SHDB recording**, we can replicate manual input sequences programmatically, ensuring error-free execution of **BDC Call Transaction and Session Methods**.
+
 ## ABAP Program Summary
-The ABAP program performs the following operations:
+The ABAP programs perform the following operations:
 1. **Reads the file** using `GUI_UPLOAD`.
 2. **Processes each record** and formats it for BDC.
 3. **Navigates through MM01 screens** using `BDC_DYNPRO`.
 4. **Populates fields** using `BDC_FIELD`.
-5. **Calls the MM01 transaction** to create the material.
+5. **Calls the MM01 transaction** using Call Transaction or creates a batch session using BDC Session Method.
 6. **Displays success/error messages** in SAP.
 
 ## Prerequisites
