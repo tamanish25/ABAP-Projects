@@ -1,4 +1,4 @@
-REPORT z_bapi_upload.
+REPORT Z_BAPI_UPLOAD.
 
 
 " Define a structure for material master data
