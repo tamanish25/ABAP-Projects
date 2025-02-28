@@ -1,0 +1,43 @@
+*&---------------------------------------------------------------------*
+*& Report  ZMKS_READFILE_IN_SAP_SERVER
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
+
+REPORT ZMKS_READFILE_IN_SAP_SERVER.
+
+
+TYPES : BEGIN OF LTY_DATA,
+        ONO TYPE ZDEONO_50,
+  ODATE TYPE ZDEODATE_50,
+  PM TYPE ZDEPM_50,
+
+  END OF LTY_DATA.
+
+DATA : LT_DATA TYPE TABLE OF LTY_DATA.
+DATA : LWA_DATA TYPE LTY_DATA.
+
+DATA : LV_STRING TYPE STRING.
+DATA: LV_FILENAME(20) TYPE C VALUE '/tmp/order.txt'.
+OPEN DATASET LV_FILENAME FOR INPUT IN TEXT MODE ENCODING DEFAULT.
+
+IF SY-SUBRC = 0.
+  DO.
+    READ DATASET LV_FILENAME INTO LV_STRING.
+   IF SY-SUBRC = 0.
+      SPLIT LV_STRING AT '#' INTO LWA_DATA-ONO LWA_DATA-ODATE LWA_DATA-PM.
+      APPEND LWA_DATA TO LT_DATA.
+      CLEAR : LWA_DATA.
+    ELSE.
+      EXIT.
+   ENDIF.
+      CLOSE DATASET LV_FILENAME.
+  ENDDO.
+
+ENDIF.
+
+LOOP AT LT_DATA INTO LWA_DATA.
+  WRITE : / LWA_DATA-ONO , LWA_DATA-ODATE , LWA_DATA-PM.
+ENDLOOP.
